@@ -46,7 +46,7 @@
 
         <div class="recommended">
 
-          <div v-for=" (product, i) in inventory.slice(0,3) " :key = "i" class="card">
+          <div v-for=" (product,i) in inventory.slice(0,3) " :key = "product.id" class="card">
             <div class="card-title">
               {{product.name}}           
               </div>
@@ -74,13 +74,13 @@
                     <label>Quantity:</label>
                   </div>
                   <div class="cell">
-                    <input type="number" v-model.number = "inventory[i].quantity">
+                    <input type="number" v-model.number = "product.quantity">
                   </div>
                 </div>
               </form>
             </div>
             <div class="card-footer">
-              <button @click="addToCart('carrot')" class="btn btn-light">
+              <button @click="addToCart(product.name,i)" class="btn btn-light">
                 Add to cart
               </button>
             </div>
@@ -96,6 +96,7 @@
  v-if = "showSidebar"  
  :toggle="toggleSidebar"
  :cart="cart"
+ :inventory="inventory"
  />
 
 
@@ -112,18 +113,15 @@
       return {
         showSidebar:false,
         inventory:[],
-        cart:{
-          carrot: 0,
-          pineapple:0,
-          cherries:0,
-        }
+        cart:{}
       }
     },
     methods:{
-      addToCart(type){
+      addToCart(name,index){
         // receive type and number of inventory items
-        this.cart[type] += this.inventory[type]
-        console.log(this.cart)
+        if(!this.cart[name]) this.cart[name] = 0
+        this.cart[name] += this.inventory[index].quantity
+        console.log(name,index)
 
       },
       toggleSidebar(){
