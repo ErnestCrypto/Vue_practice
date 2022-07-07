@@ -138,10 +138,18 @@
   })
   
   app.component('sidebar',{
-    props:['toggle','cart'],
+    props:['toggle','cart','inventory'],
     computed:{
       cartTotal(){
         return (this.cart.carrot * 4.82).toFixed(2);
+      }
+    },
+    methods:{
+      getPrice(name){
+        const product = this.inventory.find(p =>{
+          return p.name == name
+        })
+        return product.price.USD
       }
     },
     template:`
@@ -168,12 +176,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr v-for = "(quantity,key, i) in cart " :key = "i">
                   <td><i class="icofont-carrot icofont-3x"></i></td>
-                  <td>Carrot</td>
-                  <td>$1.00</td>
-                  <td class="center">{{cart.carrot}}</td>
-                  <td>\${{cart.carrot * 4.82}}</td>
+                  <td>{{key}}</td>
+                  <td>\${{getPrice(key)}}</td>
+                  <td class="center">{{quantity}}</td>
+                  <td>\${{quantity * 4.82}}</td>
                   <td class="center">
                     <button class="btn btn-light cart-remove">
                       &times;
