@@ -46,7 +46,7 @@
 
         <div class="recommended">
 
-          <div v-for=" product in inventory.slice(0,3) " class="card">
+          <div v-for=" (product, i) in inventory.slice(0,3) " :key = "i" class="card">
             <div class="card-title">
               {{product.name}}           
               </div>
@@ -66,7 +66,7 @@
                     <label>Price:</label>
                   </div>
                   <div class="cell">
-                    $4.82
+                    ${{product.price.USD}}
                   </div>
                 </div>
                 <div class="row">
@@ -74,7 +74,7 @@
                     <label>Quantity:</label>
                   </div>
                   <div class="cell">
-                    <input type="number" v-model.number = "inventory.carrot">
+                    <input type="number" v-model.number = "inventory[i].quantity">
                   </div>
                 </div>
               </form>
